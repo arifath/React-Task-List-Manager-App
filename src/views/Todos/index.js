@@ -1,8 +1,9 @@
 import React from 'react';
-import { Container, Card, CardTitle, Alert, Badge, Form, FormGroup, Input, Label, Row, Col, Button, CardHeader, CardBody } from 'reactstrap';
+import { Container, Card, CardTitle, Alert, CustomInput, Form, FormGroup, Input, Label, Row, Col, Button, CardHeader, CardBody } from 'reactstrap';
 
 import userStore from '../../store/user';
 import todosStore from '../../store/todos';
+import todos from '../../store/todos';
 
 // for playin in browser console
 window.userStore = userStore;
@@ -52,15 +53,27 @@ class Todos extends BaseComponent {
                   <CardBody>
                     <Row>
                       <Col sm="10">
-                        <h4>{todo.text} </h4>
+                        <h4  style={todo.is_complete ? {textDecoration: 'line-through'}: {}}>{todo.text} </h4>
                       <br />
                      {todo.tag}<small> - {new Date(todo.createdAt).toString()}</small>
                       </Col>
                       <Col sm="2">
-                        <Button size="sm" color="primary" onClick={() => this.setUpdate(todo._id, todo.text, todo.tag)}>
+                        <CustomInput
+                          type="checkbox"
+                          inline={true}
+                          checked={todo.is_complete}
+                          style={{width: '30px', height: '30px'}}
+                          onClick={(v) => this.completeTodos(todo._id, todo.is_complete)} />
+                        <Button
+                          size="sm"
+                          color="primary"
+                          onClick={() => this.setUpdate(todo._id, todo.text, todo.tag)}>
                           Edit
                         </Button>
-                        <Button size="sm" color="danger" onClick={() => this.deleteTodo(todo._id)}>
+                        <Button
+                          size="sm"
+                          color="danger"
+                          onClick={() => this.deleteTodo(todo._id)}>
                           X
                         </Button>
                       {
@@ -166,6 +179,15 @@ class Todos extends BaseComponent {
       is_update: false,
     });
   }
+
+  completeTodos = async (id, value) => {
+    await todosStore.editItem(
+      id,
+    {
+      is_complete: !value,
+    }, userStore.data);
+  }
+
 
   deleteTodo = async (id) => {
     todosStore.deleteItem(id, userStore.data);
