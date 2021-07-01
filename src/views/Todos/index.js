@@ -9,7 +9,6 @@ import todos from '../../store/todos';
 window.userStore = userStore;
 window.todosStore = todosStore;
 
-
 class BaseComponent extends React.PureComponent {
   rerender = () => {
     this.setState({
@@ -138,6 +137,7 @@ class Todos extends BaseComponent {
       text: this.state.input_text,
       tag: this.state.input_tag,
       createdAt: new Date(),
+      is_complete: false,
     }, userStore.data);
     this.setState({
       input_text: '',
@@ -152,7 +152,6 @@ class Todos extends BaseComponent {
     {
       text: this.state.input_text,
       tag: this.state.input_tag,
-      createdAt: new Date(),
     }, userStore.data);
     this.setState({
       input_text: '',
