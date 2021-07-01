@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { Container, Card, CardTitle, Alert, CustomInput, Form, FormGroup, Input, Label, Row, Col, Button, CardHeader, CardBody } from 'reactstrap';
 
 import userStore from '../../store/user';
@@ -42,7 +43,7 @@ class Todos extends BaseComponent {
               </Button>
             </h5>
             <small>
-              last upload: {todosStore.dataMeta.tsUpload}
+              last upload: {moment(todosStore.dataMeta.tsUpload).format('LLL')}
             </small>
               </Alert>
             }
@@ -54,7 +55,7 @@ class Todos extends BaseComponent {
                       <Col sm="10">
                         <h4  style={todo.is_complete ? {textDecoration: 'line-through'}: {}}>{todo.text} </h4>
                       <br />
-                     {todo.tag}<small> - {new Date(todo.createdAt).toString()}</small>
+                     {todo.tag}<small> - {moment(todo.createdAt).format('LLL')}</small>
                       </Col>
                       <Col sm="2">
                         <CustomInput
